@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.enigma.controller.EnigmaController"
+            prefWidth="1100.0" prefHeight="800.0"
+            minWidth="850.0" minHeight="650.0"
+            styleClass="enigma-root">
+
+    <stylesheets>
+        <URL value="@../styles/enigma.css"/>
+    </stylesheets>
+
+    <top>
+        <VBox spacing="10.0" styleClass="top-section">
+            <padding>
+                <Insets top="18.0" right="24.0" bottom="14.0" left="24.0"/>
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <Label text="ENIGMA" styleClass="machine-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="MACHINE I" styleClass="machine-subtitle"/>
+            </HBox>
+            <Separator/>
+            <GridPane hgap="18.0" vgap="8.0" styleClass="rotor-panel">
+                <padding>
+                    <Insets top="10.0" right="12.0" bottom="10.0" left="12.0"/>
+                </padding>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.333"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.333"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.334"/>
+                </columnConstraints>
+                <Label text="LEFT ROTOR" styleClass="section-label"
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label text="MIDDLE ROTOR" styleClass="section-label"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="RIGHT ROTOR" styleClass="section-label"
+                       GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <Label fx:id="leftRotorPosition" text="A" styleClass="rotor-window"
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="middleRotorPosition" text="A" styleClass="rotor-window"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label fx:id="rightRotorPosition" text="A" styleClass="rotor-window"
+                       GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            </GridPane>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="18.0" alignment="CENTER" styleClass="machine-body">
+            <padding>
+                <Insets top="16.0" right="24.0" bottom="16.0" left="24.0"/>
+            </padding>
+
+            <VBox spacing="10.0" alignment="CENTER" styleClass="lampboard-panel">
+                <Label text="LAMPBOARD" styleClass="section-heading"/>
+                <HBox alignment="CENTER" spacing="8.0">
+                    <Label fx:id="lampQ" text="Q" styleClass="lamp"/>
+                    <Label fx:id="lampW" text="W" styleClass="lamp"/>
+                    <Label fx:id="lampE" text="E" styleClass="lamp"/>
+                    <Label fx:id="lampR" text="R" styleClass="lamp"/>
+                    <Label fx:id="lampT" text="T" styleClass="lamp"/>
+                    <Label fx:id="lampZ" text="Z" styleClass="lamp"/>
+                    <Label fx:id="lampU" text="U" styleClass="lamp"/>
+                    <Label fx:id="lampI" text="I" styleClass="lamp"/>
+                    <Label fx:id="lampO" text="O" styleClass="lamp"/>
+                </HBox>
+                <HBox alignment="CENTER" spacing="8.0">
+                    <Label fx:id="lampA" text="A" styleClass="lamp"/>
+                    <Label fx:id="lampS" text="S" styleClass="lamp"/>
+                    <Label fx:id="lampD" text="D" styleClass="lamp"/>
+                    <Label fx:id="lampF" text="F" styleClass="lamp"/>
+                    <Label fx:id="lampG" text="G" styleClass="lamp"/>
+                    <Label fx:id="lampH" text="H" styleClass="lamp"/>
+                    <Label fx:id="lampJ" text="J" styleClass="lamp"/>
+                    <Label fx:id="lampK" text="K" styleClass="lamp"/>
+                </HBox>
+                <HBox alignment="CENTER" spacing="8.0">
+                    <Label fx:id="lampP" text="P" styleClass="lamp"/>
+                    <Label fx:id="lampY" text="Y" styleClass="lamp"/>
+                    <Label fx:id="lampX" text="X" styleClass="lamp"/>
+                    <Label fx:id="lampC" text="C" styleClass="lamp"/>
+                    <Label fx:id="lampV" text="V" styleClass="lamp"/>
+                    <Label fx:id="lampB" text="B" styleClass="lamp"/>
+                    <Label fx:id="lampN" text="N" styleClass="lamp"/>
+                    <Label fx:id="lampM" text="M" styleClass="lamp"/>
+                    <Label fx:id="lampL" text="L" styleClass="lamp"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10.0" alignment="CENTER" styleClass="keyboard-panel">
+                <Label text="KEYBOARD" styleClass="section-heading"/>
+                <HBox alignment="CENTER" spacing="6.0">
+                    <Button fx:id="keyQ" text="Q" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyW" text="W" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyE" text="E" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyR" text="R" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyT" text="T" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyZ" text="Z" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyU" text="U" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyI" text="I" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyO" text="O" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                </HBox>
+                <HBox alignment="CENTER" spacing="6.0">
+                    <Button fx:id="keyA" text="A" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyS" text="S" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyD" text="D" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyF" text="F" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyG" text="G" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyH" text="H" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyJ" text="J" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyK" text="K" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyL" text="L" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                </HBox>
+                <HBox alignment="CENTER" spacing="6.0">
+                    <Button fx:id="keyP" text="P" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyY" text="Y" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyX" text="X" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyC" text="C" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyV" text="V" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyB" text="B" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyN" text="N" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                    <Button fx:id="keyM" text="M" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="8.0" styleClass="plugboard-panel">
+                <Label text="PLUGBOARD" styleClass="section-heading"/>
+                <Label fx:id="plugboardSummary" text="No plugboard connections" wrapText="true"/>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="status-bar">
+            <padding>
+                <Insets top="10.0" right="24.0" bottom="14.0" left="24.0"/>
+            </padding>
+            <Label text="INPUT:" styleClass="section-label"/>
+            <Label fx:id="inputText" text="" styleClass="text-display"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="OUTPUT:" styleClass="section-label"/>
+            <Label fx:id="outputText" text="" styleClass="text-display"/>
+        </HBox>
+    </bottom>
+</BorderPane>
