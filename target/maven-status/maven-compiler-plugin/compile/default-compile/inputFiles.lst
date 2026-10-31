@@ -1,5 +1,5 @@
 /home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/Main.java
-/home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/controller/MainController.java
+/home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/controller/EnigmaController.java
 /home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/model/EnigmaMachine.java
 /home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/model/MachineConfig.java
 /home/reinald/Projects/Enigma/enigma-java/src/main/java/com/enigma/model/Plugboard.java

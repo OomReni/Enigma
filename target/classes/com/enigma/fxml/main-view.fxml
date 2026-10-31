@@ -17,6 +17,8 @@
             fx:controller="com.enigma.controller.EnigmaController"
             prefWidth="1100.0" prefHeight="800.0"
             minWidth="850.0" minHeight="650.0"
+            focusTraversable="true"
+            onKeyPressed="#HandlePhysicalKey"
             styleClass="enigma-root">
 
     <stylesheets>
