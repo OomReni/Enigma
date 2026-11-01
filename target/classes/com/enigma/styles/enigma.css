@@ -1,0 +1,214 @@
+/* =========================================
+   ROTOR SETTINGS PANEL
+   ========================================= */
+
+.rotor-settings-panel {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            #403126,
+            #261b14
+    );
+
+    -fx-padding: 22px;
+
+    -fx-border-color: #9b7945;
+    -fx-border-width: 2px;
+
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+/* =========================================
+   PANEL TITLE
+   ========================================= */
+
+.rotor-settings-title {
+    -fx-text-fill: #d6bd89;
+    -fx-font-family: "Serif";
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
+}
+
+/* =========================================
+   ROTOR LABELS
+   ========================================= */
+
+.rotor-label {
+    -fx-text-fill: #c4a675;
+    -fx-font-family: "Serif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+/* =========================================
+   ROTOR POSITION DISPLAY
+   ========================================= */
+
+.rotor-position {
+    -fx-background-color: #17130f;
+
+    -fx-text-fill: #e4d1a5;
+
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+
+    -fx-alignment: center;
+
+    -fx-min-width: 65px;
+    -fx-min-height: 65px;
+
+    -fx-border-color: #b08b50;
+    -fx-border-width: 3px;
+
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+/* =========================================
+   ROTOR SELECTORS
+   ========================================= */
+
+.rotor-selector {
+    -fx-background-color: #302319;
+
+    -fx-border-color: #a48653;
+    -fx-border-width: 1.5px;
+
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+
+    -fx-pref-width: 100px;
+}
+
+.rotor-selector .list-cell {
+    -fx-background-color: #302319;
+    -fx-text-fill: #e0c99c;
+
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 14px;
+
+    -fx-alignment: center;
+}
+
+.rotor-selector .arrow-button {
+    -fx-background-color: #80643c;
+}
+
+.rotor-selector .arrow {
+    -fx-background-color: #ead8b0;
+}
+
+.rotor-selector .list-view {
+    -fx-background-color: #302319;
+    -fx-border-color: #a48653;
+}
+
+.rotor-selector .list-cell:hover {
+    -fx-background-color: #80643c;
+    -fx-text-fill: white;
+}
+
+.rotor-selector .list-cell:filled:selected {
+    -fx-background-color: #80643c;
+    -fx-text-fill: white;
+}
+
+/* =========================================
+   APPLY BUTTON
+   ========================================= */
+
+.rotor-apply-button {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            #a17d43,
+            #6e5029
+    );
+
+    -fx-text-fill: #f2e5c8;
+
+    -fx-font-family: "Serif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+    -fx-letter-spacing: 1px;
+
+    -fx-padding: 11px 20px;
+
+    -fx-border-color: #c6a66b;
+    -fx-border-width: 1.5px;
+
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+
+    -fx-cursor: hand;
+}
+
+.rotor-apply-button:hover {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            #b08c50,
+            #806034
+    );
+}
+
+.rotor-apply-button:pressed {
+    -fx-background-color: #594022;
+}
+
+.rotor-control {
+    -fx-alignment: center;
+    -fx-spacing: 8px;
+}
+
+.rotor-selector {
+    -fx-background-color: #24170f;
+    -fx-border-color: #b08d57;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+
+    -fx-text-fill: #f0d49a;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+
+    -fx-alignment: center;
+    -fx-min-width: 48px;
+    -fx-min-height: 45px;
+}
+
+.rotor-arrow-button {
+    -fx-background-color: linear-gradient(
+            to bottom,
+            #80613b,
+            #49301c
+    );
+
+    -fx-border-color: #c5a36b;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+
+    -fx-text-fill: #f4dfb5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+
+    -fx-cursor: hand;
+}
+
+.rotor-arrow-button:hover {
+    -fx-background-color: #a17b49;
+}
+
+.rotor-arrow-button:pressed {
+    -fx-background-color: #382416;
+}
+.rotor-controls {
+    -fx-alignment: center;
+    -fx-spacing: 35px;
+}

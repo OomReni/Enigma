@@ -2,9 +2,13 @@ package com.enigma.controller;
 
 import com.enigma.model.EnigmaMachine;
 import com.enigma.model.MachineConfig;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
@@ -12,23 +16,25 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.scene.input.KeyEvent;
-
 public class EnigmaController {
 
     private final EnigmaMachine enigmaMachine = new EnigmaMachine(MachineConfig.defaultConfig());
     private final Set<KeyCode> pressedKeys = new HashSet<>();
 
     @FXML
-    private Label leftRotorPosition;
+    private Label leftRotorSelector;
+
     @FXML
-    private Label middleRotorPosition;
+    private Label middleRotorSelector;
+
     @FXML
-    private Label rightRotorPosition;
+    private Label rightRotorSelector;
     @FXML
-    private Label inputText;
+    private Button applyRotorSettingsButton;
     @FXML
-    private Label outputText;
+    private TextArea inputText;
+    @FXML
+    private TextArea outputText;
     @FXML
     private Label plugboardSummary;
     @FXML
@@ -84,9 +90,43 @@ public class EnigmaController {
     @FXML
     private Label lampZ;
 
-    /**
-     * Handles a click on one of the on-screen keyboard buttons.
-     */
+    @FXML
+    public void initialize() {
+        leftRotorSelector.setText("A");
+        middleRotorSelector.setText("A");
+        rightRotorSelector.setText("A");
+    }
+
+    @FXML
+    public void IncrementLeftRotor() {
+        ChangeRotorLetter(leftRotorSelector, 1);
+    }
+
+    @FXML
+    public void DecrementLeftRotor() {
+        ChangeRotorLetter(leftRotorSelector, -1);
+    }
+
+    @FXML
+    public void IncrementMiddleRotor() {
+        ChangeRotorLetter(middleRotorSelector, 1);
+    }
+
+    @FXML
+    public void DecrementMiddleRotor() {
+        ChangeRotorLetter(middleRotorSelector, -1);
+    }
+
+    @FXML
+    public void IncrementRightRotor() {
+        ChangeRotorLetter(rightRotorSelector, 1);
+    }
+
+    @FXML
+    public void DecrementRightRotor() {
+        ChangeRotorLetter(rightRotorSelector, -1);
+    }
+
     @FXML
     private void HandleOnScreenKey(javafx.event.ActionEvent event) {
         if (!(event.getSource() instanceof Button pressedButton)) {
@@ -101,21 +141,6 @@ public class EnigmaController {
 
         HandleKeyPress(buttonText.charAt(0));
     }
-
-    /**
-     * Handles physical keyboard input.
-     */
-//    @FXML
-//    private void HandlePhysicalKey(KeyEvent event) {
-//        String keyName = event.getCode().getName();
-//
-//        if (keyName == null || !keyName.matches("[A-Z]")) {
-//            return;
-//        }
-//
-//        HandleKeyPress(keyName.charAt(0));
-//        event.consume();
-//    }
 
     public void AttachKeyboardInput(Scene scene, Stage primaryStage) {
         scene.addEventFilter(
@@ -139,26 +164,18 @@ public class EnigmaController {
 
     public void HandlePhysicalKey(KeyEvent event) {
         KeyCode keyCode = event.getCode();
-
         boolean isSpace = keyCode == KeyCode.SPACE;
         String keyName = keyCode.getName();
-
         boolean isLetter = keyName.length() == 1
                 && keyName.charAt(0) >= 'A'
                 && keyName.charAt(0) <= 'Z';
-
         if (!isLetter && !isSpace) {
             return;
         }
-
-        // Prevent JavaFX buttons from handling these key events.
         event.consume();
-
-        // Ignore repeated KEY_PRESSED events while the key is held.
         if (!pressedKeys.add(keyCode)) {
             return;
         }
-
         if (isSpace) {
             HandleKeyPress(' ');
         } else {
@@ -168,119 +185,80 @@ public class EnigmaController {
 
     public void HandlePhysicalKeyRelease(KeyEvent event) {
         pressedKeys.remove(event.getCode());
-
-        if (event.getCode() == KeyCode.SPACE
-                || (event.getCode().getName().length() == 1
-                && event.getCode().getName().charAt(0) >= 'A'
-                && event.getCode().getName().charAt(0) <= 'Z')) {
+        if (event.getCode() == KeyCode.SPACE || (event.getCode().getName().length() == 1
+                && event.getCode().getName().charAt(0) >= 'A' && event.getCode().getName().charAt(0) <= 'Z')) {
             event.consume();
         }
+        ClearLampboard();
     }
-
-    /**
-     * Processes one character through the Enigma machine.
-     * Both keyboard input methods call this method.
-     */
-//    private void HandleKeyPress(char inputCharacter) {
-//        char upperCaseCharacter =
-//                Character.toUpperCase(inputCharacter);
-//
-//        if (upperCaseCharacter < 'A' || upperCaseCharacter > 'Z') {
-//            return;
-//        }
-//
-//        String encryptedText =
-//                enigmaMachine.process(String.valueOf(upperCaseCharacter));
-//
-//        if (encryptedText.isEmpty()) {
-//            return;
-//        }
-//
-//        char encryptedCharacter = encryptedText.charAt(0);
-//
-//        ClearLampboard();
-//        UpdateRotorPositions();
-//        AppendInputCharacter(upperCaseCharacter);
-//        AppendEncryptedCharacter(encryptedCharacter);
-//        IlluminateLamp(encryptedCharacter);
-//    }
 
     public void HandleKeyPress(char inputCharacter) {
         inputCharacter = Character.toUpperCase(inputCharacter);
-
-        AppendInputCharacter(inputCharacter);
-
-        // Spaces are display-only and must not interact with the machine.
         if (inputCharacter == ' ') {
+            AppendInputCharacter(' ');
             AppendOutputCharacter(' ');
             return;
         }
-
-        // Reject anything outside the Enigma alphabet.
         if (inputCharacter < 'A' || inputCharacter > 'Z') {
             return;
         }
-
-        // Encrypt exactly one character.
-        char encryptedCharacter = enigmaMachine.process(String.valueOf(inputCharacter)).charAt(0);
-
-        AppendOutputCharacter(encryptedCharacter);
-
+        AppendInputCharacter(inputCharacter);
+        char outputCharacter = enigmaMachine.process(String.valueOf(inputCharacter)).charAt(0);
+        AppendOutputCharacter(outputCharacter);
         UpdateRotorPositions();
-        IlluminateLamp(encryptedCharacter);
     }
 
-    /**
-     * Updates the three rotor-window labels.
-     */
     private void UpdateRotorPositions() {
         String positions = enigmaMachine.rotorPositions();
-
-        leftRotorPosition.setText(
-                String.valueOf(positions.charAt(0)));
-
-        middleRotorPosition.setText(
-                String.valueOf(positions.charAt(1)));
-
-        rightRotorPosition.setText(
-                String.valueOf(positions.charAt(2)));
+        leftRotorSelector.setText(String.valueOf(positions.charAt(0)));
+        middleRotorSelector.setText(String.valueOf(positions.charAt(1)));
+        rightRotorSelector.setText(String.valueOf(positions.charAt(2)));
     }
 
-    /**
-     * Appends the original character to the input display.
-     */
     private void AppendInputCharacter(char inputCharacter) {
-        inputText.setText(
-                inputText.getText() + inputCharacter);
+        inputText.appendText(String.valueOf(inputCharacter));
+        inputText.positionCaret(inputText.getLength());
     }
 
-    private void AppendOutputCharacter(char inputCharacter) {
-        outputText.setText(
-                outputText.getText() + inputCharacter);
+    private void AppendOutputCharacter(char outputCharacter) {
+        outputText.appendText(String.valueOf(outputCharacter));
+        outputText.positionCaret(outputText.getLength());
     }
 
-    /**
-     * Appends the encrypted character to the output display.
-     */
     private void AppendEncryptedCharacter(char encryptedCharacter) {
         outputText.setText(
                 outputText.getText() + encryptedCharacter);
     }
 
-    /**
-     * Illuminates the lamp corresponding to the encrypted character.
-     */
+    @FXML
+    public void ApplyRotorSettings() {
+        String leftPosition = leftRotorSelector.getText();
+        String middlePosition = middleRotorSelector.getText();
+        String rightPosition = rightRotorSelector.getText();
+        String positions = leftPosition + middlePosition + rightPosition;
+        enigmaMachine.setRotorPositions(positions);
+        UpdateRotorPositions();
+        ClearLampboard();
+        AppendInputCharacter('\n');
+        AppendInputCharacter('\n');
+        AppendOutputCharacter('\n');
+        AppendOutputCharacter('\n');
+    }
+
+    private void ChangeRotorLetter(Label rotorSelector, int direction) {
+        char currentLetter = rotorSelector.getText().charAt(0);
+        int currentPosition = currentLetter - 'A';
+        int newPosition = (currentPosition + direction + 26) % 26;
+        rotorSelector.setText(String.valueOf((char) ('A' + newPosition)));
+    }
+
     private void IlluminateLamp(char encryptedCharacter) {
         Label lamp = GetLamp(encryptedCharacter);
-
         if (lamp != null) {
             lamp.getStyleClass().add("lamp-lit");
         }
     }
 
-    /**
-     * Turns off all currently illuminated lamps.
-     */
     private void ClearLampboard() {
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             Label lamp = GetLamp(letter);
@@ -291,9 +269,6 @@ public class EnigmaController {
         }
     }
 
-    /**
-     * Returns the lamp label associated with a letter.
-     */
     private Label GetLamp(char letter) {
         return switch (Character.toUpperCase(letter)) {
             case 'A' -> lampA;

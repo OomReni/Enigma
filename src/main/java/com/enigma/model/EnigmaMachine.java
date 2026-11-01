@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Stateful three-moving-rotor Enigma I simulation.
- *
- * Rotor list and displayed strings use left-to-right order: slow, middle, fast.
- * Each alphabetic character steps the machine before electrical substitution.
- */
 public final class EnigmaMachine {
     private final Rotor left;
     private final Rotor middle;
@@ -29,7 +23,6 @@ public final class EnigmaMachine {
         plugboard = new Plugboard(config.plugboardPairs());
     }
 
-    /** Encrypts/decrypts text, preserving non-letters without stepping for them. */
     public String process(String input) {
         if (input == null) throw new IllegalArgumentException("Input text cannot be null");
         StringBuilder output = new StringBuilder(input.length());
@@ -54,13 +47,6 @@ public final class EnigmaMachine {
         return output.toString();
     }
 
-    /**
-     * Enigma pawls engage based on the pre-step notch state. This reproduces
-     * the middle rotor's double-step behavior:
-     * - middle at notch: left and middle step;
-     * - otherwise, right at notch: middle steps;
-     * - right always steps.
-     */
     public void stepRotors() {
         boolean middleAtNotch = middle.isAtNotch();
         boolean rightAtNotch = right.isAtNotch();
@@ -83,7 +69,6 @@ public final class EnigmaMachine {
         right.setPosition(upper.charAt(2));
     }
 
-    /** Creates a fresh machine with the same immutable key settings and original start positions. */
     public static EnigmaMachine create(MachineConfig config) {
         return new EnigmaMachine(config);
     }

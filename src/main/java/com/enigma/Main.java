@@ -16,9 +16,7 @@ public class Main extends Application {
         );
 
         Parent root = fxmlLoader.load();
-
         Scene scene = new Scene(root);
-
         EnigmaController controller = fxmlLoader.getController();
         controller.AttachKeyboardInput(scene, primaryStage);
 
