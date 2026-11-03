@@ -20,13 +20,12 @@ public class EnigmaController {
 
     private final EnigmaMachine enigmaMachine = new EnigmaMachine(MachineConfig.defaultConfig());
     private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private char illuminatedLamp;
 
     @FXML
     private Label leftRotorSelector;
-
     @FXML
     private Label middleRotorSelector;
-
     @FXML
     private Label rightRotorSelector;
     @FXML
@@ -89,6 +88,7 @@ public class EnigmaController {
     private Label lampY;
     @FXML
     private Label lampZ;
+
 
     @FXML
     public void initialize() {
@@ -185,10 +185,12 @@ public class EnigmaController {
 
     public void HandlePhysicalKeyRelease(KeyEvent event) {
         pressedKeys.remove(event.getCode());
+        ExtinguishLamp();
         if (event.getCode() == KeyCode.SPACE || (event.getCode().getName().length() == 1
                 && event.getCode().getName().charAt(0) >= 'A' && event.getCode().getName().charAt(0) <= 'Z')) {
             event.consume();
         }
+        ExtinguishLamp();
         ClearLampboard();
     }
 
@@ -203,10 +205,29 @@ public class EnigmaController {
             return;
         }
         AppendInputCharacter(inputCharacter);
-        char outputCharacter = enigmaMachine.process(String.valueOf(inputCharacter)).charAt(0);
+        char outputCharacter = enigmaMachine.process(
+                String.valueOf(inputCharacter)
+        ).charAt(0);
         AppendOutputCharacter(outputCharacter);
+        LightLamp(outputCharacter);
+        //PlayKeyPressSound();
         UpdateRotorPositions();
     }
+//    public void HandleKeyPress(char inputCharacter) {
+//        inputCharacter = Character.toUpperCase(inputCharacter);
+//        if (inputCharacter == ' ') {
+//            AppendInputCharacter(' ');
+//            AppendOutputCharacter(' ');
+//            return;
+//        }
+//        if (inputCharacter < 'A' || inputCharacter > 'Z') {
+//            return;
+//        }
+//        AppendInputCharacter(inputCharacter);
+//        char outputCharacter = enigmaMachine.process(String.valueOf(inputCharacter)).charAt(0);
+//        AppendOutputCharacter(outputCharacter);
+//        UpdateRotorPositions();
+//    }
 
     private void UpdateRotorPositions() {
         String positions = enigmaMachine.rotorPositions();
@@ -252,11 +273,31 @@ public class EnigmaController {
         rotorSelector.setText(String.valueOf((char) ('A' + newPosition)));
     }
 
-    private void IlluminateLamp(char encryptedCharacter) {
-        Label lamp = GetLamp(encryptedCharacter);
+//    private void IlluminateLamp(char encryptedCharacter) {
+//        Label lamp = GetLamp(encryptedCharacter);
+//        if (lamp != null) {
+//            lamp.getStyleClass().add("lamp-lit");
+//        }
+//    }
+
+    private void LightLamp(char character) {
+        ExtinguishLamp();
+        Label lamp = GetLamp(character);
         if (lamp != null) {
             lamp.getStyleClass().add("lamp-lit");
+            illuminatedLamp = character;
         }
+    }
+
+    private void ExtinguishLamp() {
+        if (illuminatedLamp == '\0') {
+            return;
+        }
+        Label lamp = GetLamp(illuminatedLamp);
+        if (lamp != null) {
+            lamp.getStyleClass().remove("lamp-lit");
+        }
+        illuminatedLamp = '\0';
     }
 
     private void ClearLampboard() {
