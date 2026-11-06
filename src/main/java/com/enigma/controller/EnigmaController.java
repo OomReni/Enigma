@@ -2,6 +2,18 @@ package com.enigma.controller;
 
 import com.enigma.model.EnigmaMachine;
 import com.enigma.model.MachineConfig;
+import javafx.geometry.Point2D;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,6 +48,15 @@ public class EnigmaController {
     private TextArea outputText;
     @FXML
     private Label plugboardSummary;
+    @FXML
+    private Pane plugboardCanvas;
+
+    private final Map<Character, Character> plugboardConnections = new HashMap<>();
+    private final Map<Character, Point2D> plugSocketPositions = new HashMap<>();
+    private final Map<Character, Circle> plugSockets = new HashMap<>();
+    private final List<Line> plugboardWires = new ArrayList<>();
+    private Character dragStartLetter;
+    private Line previewWire;
     @FXML
     private Label lampA;
     @FXML
@@ -95,6 +116,7 @@ public class EnigmaController {
         leftRotorSelector.setText("A");
         middleRotorSelector.setText("A");
         rightRotorSelector.setText("A");
+        BuildPlugboard();
     }
 
     @FXML
@@ -308,6 +330,175 @@ public class EnigmaController {
                 lamp.getStyleClass().remove("lamp-lit");
             }
         }
+    }
+
+
+    private void BuildPlugboard() {
+        plugboardCanvas.getChildren().clear();
+        plugSocketPositions.clear();
+        plugSockets.clear();
+        plugboardWires.clear();
+
+        double startX = 42;
+        double spacing = 54;
+        double firstRowY = 58;
+        double secondRowY = 158;
+
+        for (int index = 0; index < 26; index++) {
+            char letter = (char) ('A' + index);
+            int column = index % 13;
+            int row = index / 13;
+            double centerX = startX + column * spacing;
+            double centerY = row == 0 ? firstRowY : secondRowY;
+            plugSocketPositions.put(letter, new Point2D(centerX, centerY));
+
+            Circle socket = new Circle(centerX, centerY, 17);
+            socket.getStyleClass().add("plug-socket");
+            socket.setUserData(letter);
+            socket.setOnMousePressed(event -> HandlePlugSocketPressed(letter, event));
+
+            Text label = new Text(String.valueOf(letter));
+            label.getStyleClass().add("plug-socket-label");
+            label.setMouseTransparent(true);
+            label.setX(centerX - 4.5);
+            label.setY(centerY + 5);
+
+            plugSockets.put(letter, socket);
+            plugboardCanvas.getChildren().addAll(socket, label);
+        }
+
+        plugboardCanvas.setOnMouseDragged(this::HandlePlugboardDrag);
+        plugboardCanvas.setOnMouseReleased(this::HandlePlugboardRelease);
+        UpdatePlugboardSummary();
+    }
+
+    private void HandlePlugSocketPressed(char letter, MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            RemovePlugConnection(letter);
+            event.consume();
+            return;
+        }
+        if (event.getButton() != MouseButton.PRIMARY) return;
+
+        dragStartLetter = letter;
+        Point2D start = plugSocketPositions.get(letter);
+        previewWire = new Line(start.getX(), start.getY(), start.getX(), start.getY());
+        previewWire.getStyleClass().add("plug-wire-preview");
+        previewWire.setMouseTransparent(true);
+        plugboardCanvas.getChildren().add(0, previewWire);
+        event.consume();
+    }
+
+    private void HandlePlugboardDrag(MouseEvent event) {
+        if (dragStartLetter == null || previewWire == null) return;
+        Point2D cursor = plugboardCanvas.sceneToLocal(event.getSceneX(), event.getSceneY());
+        previewWire.setEndX(cursor.getX());
+        previewWire.setEndY(cursor.getY());
+        event.consume();
+    }
+
+    private void HandlePlugboardRelease(MouseEvent event) {
+        if (dragStartLetter == null) return;
+        Point2D releasePoint = plugboardCanvas.sceneToLocal(event.getSceneX(), event.getSceneY());
+        Character targetLetter = FindNearestPlugSocket(releasePoint, 25);
+        char sourceLetter = dragStartLetter;
+
+        dragStartLetter = null;
+        if (previewWire != null) {
+            plugboardCanvas.getChildren().remove(previewWire);
+            previewWire = null;
+        }
+
+        if (targetLetter != null) ConnectPlugPair(sourceLetter, targetLetter);
+        event.consume();
+    }
+
+    private Character FindNearestPlugSocket(Point2D point, double maximumDistance) {
+        Character nearestLetter = null;
+        double nearestDistance = maximumDistance;
+        for (Map.Entry<Character, Point2D> entry : plugSocketPositions.entrySet()) {
+            double distance = entry.getValue().distance(point);
+            if (distance <= nearestDistance) {
+                nearestDistance = distance;
+                nearestLetter = entry.getKey();
+            }
+        }
+        return nearestLetter;
+    }
+
+    private void ConnectPlugPair(char firstLetter, char secondLetter) {
+        if (firstLetter == secondLetter
+                || plugboardConnections.containsKey(firstLetter)
+                || plugboardConnections.containsKey(secondLetter)
+                || plugboardConnections.size() >= 26) {
+            UpdatePlugboardSummary();
+            return;
+        }
+
+        plugboardConnections.put(firstLetter, secondLetter);
+        plugboardConnections.put(secondLetter, firstLetter);
+        ApplyPlugboardConnections();
+        RenderPlugboardWires();
+        UpdatePlugboardSummary();
+    }
+
+    private void RemovePlugConnection(char letter) {
+        Character partner = plugboardConnections.remove(letter);
+        if (partner == null) return;
+        plugboardConnections.remove(partner);
+        ApplyPlugboardConnections();
+        RenderPlugboardWires();
+        UpdatePlugboardSummary();
+    }
+
+    @FXML
+    public void ClearPlugboard() {
+        plugboardConnections.clear();
+        ApplyPlugboardConnections();
+        RenderPlugboardWires();
+        UpdatePlugboardSummary();
+    }
+
+    private void ApplyPlugboardConnections() {
+        List<String> pairs = new ArrayList<>();
+        for (Map.Entry<Character, Character> entry : plugboardConnections.entrySet()) {
+            char first = entry.getKey();
+            char second = entry.getValue();
+            if (first < second) pairs.add("" + first + second);
+        }
+        enigmaMachine.setPlugboardPairs(pairs);
+    }
+
+    private void RenderPlugboardWires() {
+        plugboardCanvas.getChildren().removeAll(plugboardWires);
+        plugboardWires.clear();
+
+        for (Map.Entry<Character, Character> entry : plugboardConnections.entrySet()) {
+            char first = entry.getKey();
+            char second = entry.getValue();
+            if (first >= second) continue;
+
+            Point2D start = plugSocketPositions.get(first);
+            Point2D end = plugSocketPositions.get(second);
+            Line wire = new Line(start.getX(), start.getY(), end.getX(), end.getY());
+            wire.getStyleClass().add("plug-wire");
+            wire.setMouseTransparent(true);
+            plugboardWires.add(wire);
+            plugboardCanvas.getChildren().add(0, wire);
+        }
+    }
+
+    private void UpdatePlugboardSummary() {
+        List<String> pairs = new ArrayList<>();
+        for (Map.Entry<Character, Character> entry : plugboardConnections.entrySet()) {
+            if (entry.getKey() < entry.getValue()) {
+                pairs.add("" + entry.getKey() + entry.getValue());
+            }
+        }
+        pairs.sort(String::compareTo);
+        plugboardSummary.setText(pairs.isEmpty()
+                ? "No plugboard connections"
+                : String.join("   ", pairs) + "   (" + pairs.size() + "/13 pairs)");
     }
 
     private Label GetLamp(char letter) {
