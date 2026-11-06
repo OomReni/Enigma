@@ -278,3 +278,13 @@
     -fx-font-family: "Monospaced";
     -fx-font-size: 12px;
 }
+
+
+/* Active rotor position indicator */
+.rotor-position-status {
+    -fx-text-fill: #c4a675;
+    -fx-font-family: "Serif";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
