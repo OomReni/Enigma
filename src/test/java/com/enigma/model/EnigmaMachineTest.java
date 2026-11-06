@@ -62,6 +62,33 @@ class EnigmaMachineTest {
     }
 
     @Test
+    void changingPlugboardPreservesCurrentRotorPositions() {
+        EnigmaMachine machine = new EnigmaMachine(config("AAA", "AAA", List.of()));
+        machine.process("HELLO");
+        String positionsBeforeUpdate = machine.rotorPositions();
+
+        machine.setPlugboardPairs(List.of("AV", "BS"));
+
+        assertEquals(positionsBeforeUpdate, machine.rotorPositions());
+    }
+
+    @Test
+    void updatedPlugboardWiringAffectsSubsequentEncryption() {
+        EnigmaMachine unpatched = new EnigmaMachine(config("AAA", "AAA", List.of()));
+        EnigmaMachine patched = new EnigmaMachine(config("AAA", "AAA", List.of()));
+
+        unpatched.setPlugboardPairs(List.of("AV"));
+        assertNotEquals(unpatched.process("A"), patched.process("A"));
+    }
+
+    @Test
+    void invalidLivePlugboardUpdateIsRejected() {
+        EnigmaMachine machine = new EnigmaMachine(config("AAA", "AAA", List.of()));
+        assertThrows(IllegalArgumentException.class,
+                () -> machine.setPlugboardPairs(List.of("AB", "AC")));
+    }
+
+    @Test
     void validatesMachineConfiguration() {
         assertThrows(IllegalArgumentException.class, () -> new MachineConfig(
                 List.of(RotorSpec.I, RotorSpec.I, RotorSpec.III), ReflectorSpec.B, "AAA", "AAA", List.of()));
