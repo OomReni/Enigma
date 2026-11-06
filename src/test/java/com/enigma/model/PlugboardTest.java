@@ -15,6 +15,13 @@ class PlugboardTest {
     }
 
     @Test
+    void rejectsMalformedAndInvalidPairs() {
+        assertThrows(IllegalArgumentException.class, () -> new Plugboard(List.of("A")));
+        assertThrows(IllegalArgumentException.class, () -> new Plugboard(List.of("A1")));
+        assertThrows(IllegalArgumentException.class, () -> new Plugboard(List.of("AA")));
+    }
+
+    @Test
     void rejectsOverlappingPairs() {
         assertThrows(IllegalArgumentException.class, () -> new Plugboard(List.of("AB", "AC")));
     }
