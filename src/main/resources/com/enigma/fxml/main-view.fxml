@@ -85,11 +85,8 @@
                 </VBox>
             </HBox>
 
-            <Button fx:id="applyRotorSettingsButton"
-                    text="APPLY ROTOR SETTINGS"
-                    onAction="#ApplyRotorSettings"
-                    styleClass="rotor-apply-button"
-                    maxWidth="240"/>
+            <Label text="ACTIVE MACHINE POSITIONS — changes apply immediately"
+                   styleClass="rotor-position-status"/>
 
         </VBox>
     </top>
