@@ -9,7 +9,7 @@ public final class EnigmaMachine {
     private final Rotor middle;
     private final Rotor right;
     private final ReflectorSpec reflector;
-    private final Plugboard plugboard;
+    private Plugboard plugboard;
 
     public EnigmaMachine(MachineConfig config) {
         if (config == null) throw new IllegalArgumentException("Machine configuration is required");
@@ -67,6 +67,14 @@ public final class EnigmaMachine {
         left.setPosition(upper.charAt(0));
         middle.setPosition(upper.charAt(1));
         right.setPosition(upper.charAt(2));
+    }
+
+    /**
+     * Replaces the plugboard wiring without resetting rotor positions.
+     * The supplied pairs are validated by the Plugboard constructor.
+     */
+    public void setPlugboardPairs(List<String> pairs) {
+        plugboard = new Plugboard(pairs);
     }
 
     public static EnigmaMachine create(MachineConfig config) {
