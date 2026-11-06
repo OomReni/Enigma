@@ -212,3 +212,69 @@
     -fx-alignment: center;
     -fx-spacing: 35px;
 }
+
+
+/* =========================================
+   PLUGBOARD PANEL
+   ========================================= */
+
+.plugboard-panel {
+    -fx-background-color: linear-gradient(to bottom, #403126, #261b14);
+    -fx-padding: 16px 18px;
+    -fx-border-color: #9b7945;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.plugboard-instructions {
+    -fx-text-fill: #c4a675;
+    -fx-font-family: "Serif";
+    -fx-font-size: 11px;
+}
+
+.plugboard-canvas {
+    -fx-background-color: linear-gradient(to bottom, #21170f, #302217);
+    -fx-border-color: #8d6c3d;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.plug-socket {
+    -fx-fill: #302319;
+    -fx-stroke: #c2a16a;
+    -fx-stroke-width: 2px;
+    -fx-cursor: hand;
+}
+
+.plug-socket:hover {
+    -fx-fill: #76552e;
+    -fx-stroke: #f0d49a;
+}
+
+.plug-socket-label {
+    -fx-fill: #f0d49a;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.plug-wire {
+    -fx-stroke: #c49a55;
+    -fx-stroke-width: 5px;
+    -fx-stroke-line-cap: round;
+    -fx-opacity: 0.95;
+}
+
+.plug-wire-preview {
+    -fx-stroke: #e8d3a6;
+    -fx-stroke-width: 3px;
+    -fx-stroke-dash-array: 7 5;
+}
+
+.plugboard-summary {
+    -fx-text-fill: #e0c99c;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 12px;
+}
