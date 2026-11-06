@@ -41,8 +41,6 @@ public class EnigmaController {
     @FXML
     private Label rightRotorSelector;
     @FXML
-    private Button applyRotorSettingsButton;
-    @FXML
     private TextArea inputText;
     @FXML
     private TextArea outputText;
@@ -113,9 +111,7 @@ public class EnigmaController {
 
     @FXML
     public void initialize() {
-        leftRotorSelector.setText("A");
-        middleRotorSelector.setText("A");
-        rightRotorSelector.setText("A");
+        UpdateRotorPositions();
         BuildPlugboard();
     }
 
@@ -273,26 +269,19 @@ public class EnigmaController {
                 outputText.getText() + encryptedCharacter);
     }
 
-    @FXML
-    public void ApplyRotorSettings() {
-        String leftPosition = leftRotorSelector.getText();
-        String middlePosition = middleRotorSelector.getText();
-        String rightPosition = rightRotorSelector.getText();
-        String positions = leftPosition + middlePosition + rightPosition;
-        enigmaMachine.setRotorPositions(positions);
-        UpdateRotorPositions();
-        ClearLampboard();
-        AppendInputCharacter('\n');
-        AppendInputCharacter('\n');
-        AppendOutputCharacter('\n');
-        AppendOutputCharacter('\n');
-    }
-
     private void ChangeRotorLetter(Label rotorSelector, int direction) {
         char currentLetter = rotorSelector.getText().charAt(0);
         int currentPosition = currentLetter - 'A';
         int newPosition = (currentPosition + direction + 26) % 26;
         rotorSelector.setText(String.valueOf((char) ('A' + newPosition)));
+
+        String positions = leftRotorSelector.getText()
+                + middleRotorSelector.getText()
+                + rightRotorSelector.getText();
+        enigmaMachine.setRotorPositions(positions);
+        UpdateRotorPositions();
+        ExtinguishLamp();
+        ClearLampboard();
     }
 
 //    private void IlluminateLamp(char encryptedCharacter) {
