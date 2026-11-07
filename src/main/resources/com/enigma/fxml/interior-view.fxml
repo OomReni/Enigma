@@ -31,7 +31,7 @@
     <HBox alignment="CENTER" spacing="18.0" styleClass="rotor-bay">
         <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
             <Label text="LEFT ROTOR" styleClass="interior-rotor-label"/>
-            <Label text="I" styleClass="rotor-core-mark"/>
+            <Label fx:id="leftRotorMark" text="I" styleClass="rotor-core-mark"/>
             <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
             <ComboBox fx:id="leftRotorType" prefWidth="145.0" styleClass="interior-combo"/>
             <Label text="RING SETTING" styleClass="interior-field-label"/>
@@ -40,7 +40,7 @@
 
         <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
             <Label text="MIDDLE ROTOR" styleClass="interior-rotor-label"/>
-            <Label text="II" styleClass="rotor-core-mark"/>
+            <Label fx:id="middleRotorMark" text="II" styleClass="rotor-core-mark"/>
             <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
             <ComboBox fx:id="middleRotorType" prefWidth="145.0" styleClass="interior-combo"/>
             <Label text="RING SETTING" styleClass="interior-field-label"/>
@@ -49,7 +49,7 @@
 
         <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
             <Label text="RIGHT ROTOR" styleClass="interior-rotor-label"/>
-            <Label text="III" styleClass="rotor-core-mark"/>
+            <Label fx:id="rightRotorMark" text="III" styleClass="rotor-core-mark"/>
             <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
             <ComboBox fx:id="rightRotorType" prefWidth="145.0" styleClass="interior-combo"/>
             <Label text="RING SETTING" styleClass="interior-field-label"/>
