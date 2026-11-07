@@ -162,11 +162,11 @@ class EnigmaControllerUiTest {
     }
 
     @SuppressWarnings("unchecked")
-    private static ComboBox<RotorSpec> GetComboBox(
+    private static <T> ComboBox<T> GetComboBox(
             InteriorController controller, String fieldName) throws Exception {
         Field field = InteriorController.class.getDeclaredField(fieldName);
         field.setAccessible(true);
-        return (ComboBox<RotorSpec>) field.get(controller);
+        return (ComboBox<T>) field.get(controller);
     }
 
     private static long CountInteriorWindows() {
