@@ -2,9 +2,11 @@ package com.enigma.controller;
 
 import com.enigma.model.EnigmaMachine;
 import com.enigma.model.MachineConfig;
+import com.enigma.model.RotorSpec;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -98,6 +101,72 @@ class EnigmaControllerUiTest {
             assertTrue(summary.getText().contains("AB"));
             return null;
         });
+    }
+
+    @Test
+    void RotorAndRingSettingsSurviveClosingAndReopeningTheInterior() throws Exception {
+        RunOnFxThread(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/enigma/fxml/main-view.fxml"));
+            Parent mainRoot = loader.load();
+            EnigmaController mainController = loader.getController();
+            Stage mainStage = new Stage();
+            mainStage.setScene(new Scene(mainRoot));
+            mainStage.show();
+
+            try {
+                mainController.OpenInteriorView();
+                InteriorController interiorController = GetInteriorController(mainController);
+
+                GetComboBox(interiorController, "leftRotorType").setValue(RotorSpec.IV);
+                GetComboBox(interiorController, "middleRotorType").setValue(RotorSpec.V);
+                GetComboBox(interiorController, "rightRotorType").setValue(RotorSpec.VI);
+                GetComboBox(interiorController, "leftRingSetting").setValue("B");
+                GetComboBox(interiorController, "middleRingSetting").setValue("C");
+                GetComboBox(interiorController, "rightRingSetting").setValue("D");
+
+                assertTrue(interiorController.InstallRotorConfiguration());
+                FindInteriorStage().close();
+
+                mainController.OpenInteriorView();
+                InteriorController reopenedController = GetInteriorController(mainController);
+
+                assertEquals(List.of(RotorSpec.IV, RotorSpec.V, RotorSpec.VI),
+                        List.of(
+                                GetComboBox(reopenedController, "leftRotorType").getValue(),
+                                GetComboBox(reopenedController, "middleRotorType").getValue(),
+                                GetComboBox(reopenedController, "rightRotorType").getValue()));
+                assertEquals(List.of("B", "C", "D"),
+                        List.of(
+                                GetComboBox(reopenedController, "leftRingSetting").getValue(),
+                                GetComboBox(reopenedController, "middleRingSetting").getValue(),
+                                GetComboBox(reopenedController, "rightRingSetting").getValue()));
+            } finally {
+                for (Window window : Window.getWindows().stream().toList()) {
+                    if (window instanceof Stage stage
+                            && "Enigma Machine I — Interior".equals(stage.getTitle())) {
+                        stage.close();
+                    }
+                }
+                mainStage.close();
+            }
+            return null;
+        });
+    }
+
+    private static InteriorController GetInteriorController(
+            EnigmaController controller) throws Exception {
+        Field field = EnigmaController.class.getDeclaredField("interiorController");
+        field.setAccessible(true);
+        return (InteriorController) field.get(controller);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static ComboBox<RotorSpec> GetComboBox(
+            InteriorController controller, String fieldName) throws Exception {
+        Field field = InteriorController.class.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return (ComboBox<RotorSpec>) field.get(controller);
     }
 
     private static long CountInteriorWindows() {
