@@ -6,13 +6,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.enigma.controller.InteriorController"
-      prefWidth="760.0" prefHeight="470.0"
-      minWidth="700.0" minHeight="430.0"
+      prefWidth="850.0" prefHeight="760.0"
+      minWidth="820.0" minHeight="720.0"
       alignment="CENTER" spacing="22.0"
       styleClass="interior-root">
     <stylesheets>
@@ -56,6 +57,27 @@
             <ComboBox fx:id="rightRingSetting" prefWidth="145.0" styleClass="interior-combo"/>
         </VBox>
     </HBox>
+
+
+    <VBox alignment="CENTER" spacing="10.0" styleClass="plugboard-panel">
+        <Label text="PLUGBOARD" styleClass="section-heading"/>
+        <Label text="Drag one socket onto another to connect a cable. Right-click a connected socket to remove its cable."
+               styleClass="plugboard-instructions"
+               wrapText="true"/>
+        <Pane fx:id="plugboardCanvas"
+              prefWidth="760.0" minWidth="760.0"
+              prefHeight="215.0" minHeight="215.0"
+              styleClass="plugboard-canvas"/>
+        <HBox alignment="CENTER" spacing="14.0">
+            <Label fx:id="plugboardSummary"
+                   text="No plugboard connections"
+                   wrapText="true"
+                   styleClass="plugboard-summary"/>
+            <Button text="CLEAR CONNECTIONS"
+                    onAction="#ClearPlugboard"
+                    styleClass="rotor-apply-button"/>
+        </HBox>
+    </VBox>
 
     <Label fx:id="configurationStatus"
            text="Rotor changes preserve the current window positions and plugboard wiring."
