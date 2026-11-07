@@ -91,7 +91,11 @@ public class InteriorController {
 
     @FXML
     public void ApplyRotorConfiguration() {
-        if (enigmaMachine == null) return;
+        InstallRotorConfiguration();
+    }
+
+    public boolean InstallRotorConfiguration() {
+        if (enigmaMachine == null) return false;
 
         List<RotorSpec> selectedRotors = Arrays.asList(
                 leftRotorType.getValue(),
@@ -100,11 +104,11 @@ public class InteriorController {
 
         if (selectedRotors.stream().anyMatch(java.util.Objects::isNull)) {
             configurationStatus.setText("Select a rotor for each position.");
-            return;
+            return false;
         }
         if (selectedRotors.stream().distinct().count() != 3) {
             configurationStatus.setText("A rotor can only be installed in one position at a time.");
-            return;
+            return false;
         }
 
         List<String> selectedRings = Arrays.asList(
@@ -113,12 +117,13 @@ public class InteriorController {
                 rightRingSetting.getValue());
         if (selectedRings.stream().anyMatch(java.util.Objects::isNull)) {
             configurationStatus.setText("Select a ring setting for each rotor.");
-            return;
+            return false;
         }
 
         String rings = String.join("", selectedRings);
         enigmaMachine.SetRotorConfiguration(selectedRotors, rings);
         configurationStatus.setText("Configuration installed. Current window positions and plugboard wiring are unchanged.");
+        return true;
     }
 
 
@@ -285,6 +290,7 @@ public class InteriorController {
 
     @FXML
     public void CloseInteriorView() {
+        if (!InstallRotorConfiguration()) return;
         Stage stage = (Stage) configurationStatus.getScene().getWindow();
         stage.close();
     }
