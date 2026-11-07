@@ -31,6 +31,16 @@ public final class Plugboard {
 
     public int map(int input) { return mapping[input]; }
 
+    public java.util.List<String> pairs() {
+        java.util.List<String> pairs = new java.util.ArrayList<>();
+        for (int index = 0; index < mapping.length; index++) {
+            if (mapping[index] > index) {
+                pairs.add("" + (char) ('A' + index) + (char) ('A' + mapping[index]));
+            }
+        }
+        return java.util.List.copyOf(pairs);
+    }
+
     public String swapFor(char letter) {
         int input = letterIndex(letter);
         return String.valueOf((char) ('A' + mapping[input]));
