@@ -288,3 +288,199 @@
     -fx-font-weight: bold;
     -fx-letter-spacing: 1px;
 }
+
+
+/* =========================================
+   MACHINE ACCESS SCREW
+   ========================================= */
+
+.screw-access-button {
+    -fx-min-width: 34px;
+    -fx-min-height: 34px;
+    -fx-pref-width: 34px;
+    -fx-pref-height: 34px;
+    -fx-padding: 0;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-background-color: radial-gradient(
+            center 35% 30%, radius 80%,
+            #d9d4c8,
+            #77766f 58%,
+            #34332f
+    );
+    -fx-border-color: #d0b47c #4b3926 #4b3926 #d0b47c;
+    -fx-border-width: 2px;
+    -fx-text-fill: #40372b;
+    -fx-font-family: "SansSerif";
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+.screw-access-button:hover {
+    -fx-background-color: radial-gradient(
+            center 35% 30%, radius 80%,
+            #f0e8d8,
+            #aaa69b 58%,
+            #514b40
+    );
+}
+
+.screw-access-button:pressed {
+    -fx-background-color: #625b50;
+}
+
+/* =========================================
+   INTERIOR / ROTOR SERVICE VIEW
+   ========================================= */
+
+.interior-root {
+    -fx-background-color: linear-gradient(to bottom, #33251b, #1d1510);
+    -fx-border-color: #a78650;
+    -fx-border-width: 3px;
+}
+
+.interior-title {
+    -fx-text-fill: #e0c99c;
+    -fx-font-family: "Serif";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 3px;
+}
+
+.interior-subtitle {
+    -fx-text-fill: #a98b5c;
+    -fx-font-family: "Serif";
+    -fx-font-size: 10px;
+    -fx-letter-spacing: 1.5px;
+}
+
+.rotor-bay {
+    -fx-padding: 18px;
+    -fx-background-color: linear-gradient(to bottom, #17120e, #302217);
+    -fx-border-color: #80623d;
+    -fx-border-width: 2px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.rotor-chamber {
+    -fx-padding: 15px 12px;
+    -fx-min-width: 185px;
+    -fx-background-color: linear-gradient(to bottom, #4a3828, #2a1d14);
+    -fx-border-color: #b08b50;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.interior-rotor-label {
+    -fx-text-fill: #d6bd89;
+    -fx-font-family: "Serif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+.rotor-core-mark {
+    -fx-min-width: 62px;
+    -fx-min-height: 62px;
+    -fx-alignment: center;
+    -fx-background-color: radial-gradient(
+            center 35% 30%, radius 80%,
+            #d0b47c,
+            #80613b 58%,
+            #33251b
+    );
+    -fx-background-radius: 50%;
+    -fx-border-color: #d5b77b;
+    -fx-border-width: 3px;
+    -fx-border-radius: 50%;
+    -fx-text-fill: #21170f;
+    -fx-font-family: "Serif";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.interior-field-label {
+    -fx-text-fill: #c4a675;
+    -fx-font-family: "Serif";
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+.interior-combo {
+    -fx-background-color: #21170f;
+    -fx-border-color: #a48653;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-pref-height: 34px;
+}
+
+.interior-combo .list-cell {
+    -fx-background-color: #21170f;
+    -fx-text-fill: #f0d49a;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+.interior-combo .arrow-button {
+    -fx-background-color: #80643c;
+}
+
+.interior-combo .arrow {
+    -fx-background-color: #ead8b0;
+}
+
+.interior-combo .list-view {
+    -fx-background-color: #21170f;
+    -fx-border-color: #a48653;
+}
+
+.interior-combo .list-cell:hover,
+.interior-combo .list-cell:filled:selected {
+    -fx-background-color: #80643c;
+    -fx-text-fill: white;
+}
+
+.interior-status {
+    -fx-text-fill: #d0b989;
+    -fx-font-family: "Serif";
+    -fx-font-size: 11px;
+    -fx-alignment: center;
+}
+
+.interior-apply-button {
+    -fx-background-color: linear-gradient(to bottom, #a17d43, #6e5029);
+    -fx-text-fill: #f2e5c8;
+    -fx-font-family: "Serif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+    -fx-padding: 11px 20px;
+    -fx-border-color: #c6a66b;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.interior-apply-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #b08c50, #806034);
+}
+
+.interior-close-button {
+    -fx-background-color: #302319;
+    -fx-text-fill: #d0b989;
+    -fx-font-family: "Serif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 20px;
+    -fx-border-color: #80623d;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
