@@ -484,3 +484,21 @@
     -fx-border-radius: 3px;
     -fx-cursor: hand;
 }
+
+
+/* Interior content scrolls independently; action buttons remain docked below. */
+.interior-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.interior-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.interior-action-bar {
+    -fx-background-color: linear-gradient(to bottom, #302217, #21170f);
+    -fx-border-color: #80623d transparent transparent transparent;
+    -fx-border-width: 1.5px;
+}
