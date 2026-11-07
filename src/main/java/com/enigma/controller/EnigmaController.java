@@ -44,17 +44,6 @@ public class EnigmaController {
     @FXML
     private Button screwAccessButton;
     @FXML
-    private Label plugboardSummary;
-    @FXML
-    private Pane plugboardCanvas;
-
-    private final Map<Character, Character> plugboardConnections = new HashMap<>();
-    private final Map<Character, Point2D> plugSocketPositions = new HashMap<>();
-    private final Map<Character, Circle> plugSockets = new HashMap<>();
-    private final List<Line> plugboardWires = new ArrayList<>();
-    private Character dragStartLetter;
-    private Line previewWire;
-    @FXML
     private Label lampA;
     @FXML
     private Label lampB;
