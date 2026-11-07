@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -14,6 +15,9 @@
       minWidth="700.0" minHeight="430.0"
       alignment="CENTER" spacing="22.0"
       styleClass="interior-root">
+    <stylesheets>
+        <URL value="@../styles/enigma.css"/>
+    </stylesheets>
     <padding>
         <Insets top="28.0" right="34.0" bottom="28.0" left="34.0"/>
     </padding>
