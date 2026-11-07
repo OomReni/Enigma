@@ -1,13 +1,12 @@
 package com.enigma.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public final class EnigmaMachine {
-    private final Rotor left;
-    private final Rotor middle;
-    private final Rotor right;
+    private Rotor left;
+    private Rotor middle;
+    private Rotor right;
     private final ReflectorSpec reflector;
     private Plugboard plugboard;
 
@@ -67,6 +66,39 @@ public final class EnigmaMachine {
         left.setPosition(upper.charAt(0));
         middle.setPosition(upper.charAt(1));
         right.setPosition(upper.charAt(2));
+    }
+
+    /**
+     * Installs a new left-to-right rotor order and ring setting.
+     * The visible window positions are preserved when the hardware is exchanged.
+     */
+    public void SetRotorConfiguration(List<RotorSpec> rotorOrder, String ringSettings) {
+        if (rotorOrder == null || rotorOrder.size() != 3
+                || rotorOrder.stream().anyMatch(java.util.Objects::isNull)
+                || rotorOrder.stream().distinct().count() != 3) {
+            throw new IllegalArgumentException("Select three different rotors");
+        }
+        if (ringSettings == null || !ringSettings.toUpperCase(Locale.ROOT).matches("[A-Z]{3}")) {
+            throw new IllegalArgumentException("Ring settings must be exactly three letters A-Z");
+        }
+
+        String rings = ringSettings.toUpperCase(Locale.ROOT);
+        String positions = rotorPositions();
+        left = new Rotor(rotorOrder.get(0), rings.charAt(0), positions.charAt(0));
+        middle = new Rotor(rotorOrder.get(1), rings.charAt(1), positions.charAt(1));
+        right = new Rotor(rotorOrder.get(2), rings.charAt(2), positions.charAt(2));
+    }
+
+    public List<RotorSpec> RotorOrder() {
+        return List.of(left.spec(), middle.spec(), right.spec());
+    }
+
+    public String RingSettings() {
+        return new String(new char[]{
+                (char) ('A' + left.ringSetting()),
+                (char) ('A' + middle.ringSetting()),
+                (char) ('A' + right.ringSetting())
+        });
     }
 
     /**
