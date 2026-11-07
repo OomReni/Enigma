@@ -214,6 +214,11 @@
                     promptText="Encrypted text..."
                     styleClass="machine-display"
             />
+            <Button fx:id="screwAccessButton"
+                    text="✚"
+                    accessibleText="Open the machine interior"
+                    onAction="#OpenInteriorView"
+                    styleClass="screw-access-button"/>
         </HBox>
     </bottom>
 </BorderPane>
