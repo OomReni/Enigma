@@ -109,6 +109,10 @@ public final class EnigmaMachine {
         plugboard = new Plugboard(pairs);
     }
 
+    public List<String> PlugboardPairs() {
+        return plugboard.pairs();
+    }
+
     public static EnigmaMachine create(MachineConfig config) {
         return new EnigmaMachine(config);
     }
