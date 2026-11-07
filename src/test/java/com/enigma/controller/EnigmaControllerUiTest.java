@@ -66,7 +66,7 @@ class EnigmaControllerUiTest {
 
     @Test
     void InteriorPlugboardUiUpdatesTheSharedMachineAndDrawsItsWire() throws Exception {
-        runOnFxThread(() -> {
+        RunOnFxThread(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/enigma/fxml/interior-view.fxml"));
             loader.load();
@@ -117,7 +117,7 @@ class EnigmaControllerUiTest {
                 .orElse(null);
     }
 
-    private static <T> T runOnFxThread(Callable<T> action) throws Exception {
+    private static <T> T RunOnFxThread(Callable<T> action) throws Exception {
         StartJavaFx();
         CountDownLatch finished = new CountDownLatch(1);
         AtomicReference<T> result = new AtomicReference<>();
