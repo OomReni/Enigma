@@ -214,6 +214,7 @@
                     promptText="Encrypted text..."
                     styleClass="machine-display"
             />
+            <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="screwAccessButton"
                     text="✚"
                     accessibleText="Open the machine interior"
