@@ -27,6 +27,7 @@ public class EnigmaController {
     private final EnigmaMachine enigmaMachine = new EnigmaMachine(MachineConfig.defaultConfig());
     private final Set<KeyCode> pressedKeys = new HashSet<>();
     private char illuminatedLamp;
+    private Stage interiorStage;
 
     @FXML
     private Label leftRotorSelector;
@@ -105,6 +106,12 @@ public class EnigmaController {
 
     @FXML
     public void OpenInteriorView() {
+        if (interiorStage != null && interiorStage.isShowing()) {
+            interiorStage.toFront();
+            interiorStage.requestFocus();
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/com/enigma/fxml/interior-view.fxml")
@@ -113,12 +120,18 @@ public class EnigmaController {
             InteriorController interiorController = loader.getController();
             interiorController.SetEnigmaMachine(enigmaMachine);
 
-            Stage interiorStage = new Stage();
-            interiorStage.initOwner(screwAccessButton.getScene().getWindow());
-            interiorStage.initModality(Modality.NONE);
-            interiorStage.setTitle("Enigma Machine I — Interior");
-            interiorStage.setResizable(false);
-            interiorStage.setScene(new Scene(interiorRoot));
+            Stage newInteriorStage = new Stage();
+            newInteriorStage.initOwner(screwAccessButton.getScene().getWindow());
+            newInteriorStage.initModality(Modality.NONE);
+            newInteriorStage.setTitle("Enigma Machine I — Interior");
+            newInteriorStage.setResizable(false);
+            newInteriorStage.setScene(new Scene(interiorRoot));
+            newInteriorStage.setOnHidden(event -> {
+                if (interiorStage == newInteriorStage) {
+                    interiorStage = null;
+                }
+            });
+            interiorStage = newInteriorStage;
             interiorStage.show();
         } catch (IOException exception) {
             throw new IllegalStateException("Unable to open the Enigma interior view", exception);
