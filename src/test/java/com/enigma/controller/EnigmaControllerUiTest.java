@@ -120,7 +120,7 @@ class EnigmaControllerUiTest {
 
                 GetComboBox(interiorController, "leftRotorType").setValue(RotorSpec.IV);
                 GetComboBox(interiorController, "middleRotorType").setValue(RotorSpec.V);
-                GetComboBox(interiorController, "rightRotorType").setValue(RotorSpec.VI);
+                GetComboBox(interiorController, "rightRotorType").setValue(RotorSpec.III);
                 GetComboBox(interiorController, "leftRingSetting").setValue("B");
                 GetComboBox(interiorController, "middleRingSetting").setValue("C");
                 GetComboBox(interiorController, "rightRingSetting").setValue("D");
@@ -131,7 +131,7 @@ class EnigmaControllerUiTest {
                 mainController.OpenInteriorView();
                 InteriorController reopenedController = GetInteriorController(mainController);
 
-                assertEquals(List.of(RotorSpec.IV, RotorSpec.V, RotorSpec.VI),
+                assertEquals(List.of(RotorSpec.IV, RotorSpec.V, RotorSpec.III),
                         List.of(
                                 GetComboBox(reopenedController, "leftRotorType").getValue(),
                                 GetComboBox(reopenedController, "middleRotorType").getValue(),
