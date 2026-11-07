@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -26,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EnigmaControllerUiTest {
 
     @Test
-    void openingInteriorRepeatedlyReusesWindowAndClosingAllowsReopening() throws Exception {
-        runOnFxThread(() -> {
+    void OpeningInteriorRepeatedlyReusesWindowAndClosingAllowsReopening() throws Exception {
+        RunOnFxThread(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/enigma/fxml/main-view.fxml"));
             Parent mainRoot = loader.load();
@@ -63,7 +65,7 @@ class EnigmaControllerUiTest {
     }
 
     @Test
-    void interiorPlugboardUiUpdatesTheSharedMachineAndDrawsItsWire() throws Exception {
+    void InteriorPlugboardUiUpdatesTheSharedMachineAndDrawsItsWire() throws Exception {
         runOnFxThread(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/com/enigma/fxml/interior-view.fxml"));
@@ -82,6 +84,9 @@ class EnigmaControllerUiTest {
             Field canvasField = InteriorController.class.getDeclaredField("plugboardCanvas");
             canvasField.setAccessible(true);
             Pane canvas = (Pane) canvasField.get(controller);
+            assertEquals(26, canvas.getChildren().stream()
+                    .filter(Circle.class::isInstance)
+                    .count());
             assertEquals(1, canvas.getChildren().stream()
                     .filter(Line.class::isInstance)
                     .count());
@@ -142,9 +147,14 @@ class EnigmaControllerUiTest {
             CountDownLatch started = new CountDownLatch(1);
             Platform.startup(started::countDown);
             assertTrue(started.await(15, TimeUnit.SECONDS), "JavaFX startup timed out");
-            Platform.setImplicitExit(false);
         } catch (IllegalStateException alreadyStarted) {
             // Another UI test has already initialized the JavaFX toolkit.
         }
+        Platform.setImplicitExit(false);
+    }
+
+    @AfterAll
+    static void StopJavaFx() {
+        Platform.exit();
     }
 }
