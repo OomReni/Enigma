@@ -54,7 +54,7 @@ public class InteriorController {
     public void ApplyRotorConfiguration() {
         if (enigmaMachine == null) return;
 
-        List<RotorSpec> selectedRotors = List.of(
+        List<RotorSpec> selectedRotors = Arrays.asList(
                 leftRotorType.getValue(),
                 middleRotorType.getValue(),
                 rightRotorType.getValue());
