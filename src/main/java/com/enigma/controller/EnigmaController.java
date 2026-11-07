@@ -28,6 +28,7 @@ public class EnigmaController {
     private final Set<KeyCode> pressedKeys = new HashSet<>();
     private char illuminatedLamp;
     private Stage interiorStage;
+    private InteriorController interiorController;
 
     @FXML
     private Label leftRotorSelector;
@@ -117,7 +118,7 @@ public class EnigmaController {
                     getClass().getResource("/com/enigma/fxml/interior-view.fxml")
             );
             Parent interiorRoot = loader.load();
-            InteriorController interiorController = loader.getController();
+            interiorController = loader.getController();
             interiorController.SetEnigmaMachine(enigmaMachine);
 
             Stage newInteriorStage = new Stage();
@@ -134,6 +135,7 @@ public class EnigmaController {
             newInteriorStage.setOnHidden(event -> {
                 if (interiorStage == newInteriorStage) {
                     interiorStage = null;
+                    interiorController = null;
                 }
             });
             interiorStage = newInteriorStage;
