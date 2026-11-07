@@ -19,6 +19,9 @@ public class InteriorController {
     @FXML private ComboBox<String> middleRingSetting;
     @FXML private ComboBox<String> rightRingSetting;
     @FXML private Label configurationStatus;
+    @FXML private Label leftRotorMark;
+    @FXML private Label middleRotorMark;
+    @FXML private Label rightRotorMark;
 
     private EnigmaMachine enigmaMachine;
 
@@ -35,6 +38,13 @@ public class InteriorController {
         leftRingSetting.setItems(FXCollections.observableArrayList(ringOptions));
         middleRingSetting.setItems(FXCollections.observableArrayList(ringOptions));
         rightRingSetting.setItems(FXCollections.observableArrayList(ringOptions));
+
+        leftRotorType.valueProperty().addListener((observable, oldValue, newValue) ->
+                leftRotorMark.setText(newValue == null ? "—" : newValue.name()));
+        middleRotorType.valueProperty().addListener((observable, oldValue, newValue) ->
+                middleRotorMark.setText(newValue == null ? "—" : newValue.name()));
+        rightRotorType.valueProperty().addListener((observable, oldValue, newValue) ->
+                rightRotorMark.setText(newValue == null ? "—" : newValue.name()));
     }
 
     public void SetEnigmaMachine(EnigmaMachine machine) {
@@ -68,9 +78,16 @@ public class InteriorController {
             return;
         }
 
-        String rings = leftRingSetting.getValue()
-                + middleRingSetting.getValue()
-                + rightRingSetting.getValue();
+        List<String> selectedRings = Arrays.asList(
+                leftRingSetting.getValue(),
+                middleRingSetting.getValue(),
+                rightRingSetting.getValue());
+        if (selectedRings.stream().anyMatch(java.util.Objects::isNull)) {
+            configurationStatus.setText("Select a ring setting for each rotor.");
+            return;
+        }
+
+        String rings = String.join("", selectedRings);
         enigmaMachine.SetRotorConfiguration(selectedRotors, rings);
         configurationStatus.setText("Configuration installed. Current window positions and plugboard wiring are unchanged.");
     }
