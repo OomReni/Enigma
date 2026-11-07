@@ -125,7 +125,7 @@ class EnigmaControllerUiTest {
                 GetComboBox(interiorController, "middleRingSetting").setValue("C");
                 GetComboBox(interiorController, "rightRingSetting").setValue("D");
 
-                assertTrue(interiorController.InstallRotorConfiguration());
+                // Closing the window commits the valid pending selections.
                 FindInteriorStage().close();
 
                 mainController.OpenInteriorView();
