@@ -168,29 +168,7 @@
                     <Button fx:id="keyM" text="M" onAction="#HandleOnScreenKey" styleClass="enigma-key"/>
                 </HBox>
             </VBox>
-
-            <VBox spacing="10.0" alignment="CENTER" styleClass="plugboard-panel">
-                <Label text="PLUGBOARD" styleClass="section-heading"/>
-                <Label text="Drag one socket onto another to connect a cable. Right-click a connected socket to remove its cable."
-                       styleClass="plugboard-instructions"
-                       wrapText="true"/>
-                <Pane fx:id="plugboardCanvas"
-                      prefWidth="760.0"
-                      minWidth="760.0"
-                      prefHeight="215.0"
-                      minHeight="215.0"
-                      styleClass="plugboard-canvas"/>
-                <HBox alignment="CENTER" spacing="14.0">
-                    <Label fx:id="plugboardSummary"
-                           text="No plugboard connections"
-                           wrapText="true"
-                           styleClass="plugboard-summary"/>
-                    <Button text="CLEAR CONNECTIONS"
-                            onAction="#ClearPlugboard"
-                            styleClass="rotor-apply-button"/>
-                </HBox>
-            </VBox>
-        </VBox>
+</VBox>
     </center>
 
     <bottom>
