@@ -126,6 +126,11 @@ public class EnigmaController {
             newInteriorStage.setTitle("Enigma Machine I — Interior");
             newInteriorStage.setResizable(false);
             newInteriorStage.setScene(new Scene(interiorRoot));
+            newInteriorStage.setOnCloseRequest(event -> {
+                if (!interiorController.InstallRotorConfiguration()) {
+                    event.consume();
+                }
+            });
             newInteriorStage.setOnHidden(event -> {
                 if (interiorStage == newInteriorStage) {
                     interiorStage = null;
