@@ -17,6 +17,7 @@ import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -24,7 +25,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
+import javafx.scene.Parent;
+import javafx.scene.Cursor;
+import javafx.scene.image.ImageCursor;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +52,8 @@ public class EnigmaController {
     private TextArea inputText;
     @FXML
     private TextArea outputText;
+    @FXML
+    private Button screwAccessButton;
     @FXML
     private Label plugboardSummary;
     @FXML
@@ -113,6 +123,71 @@ public class EnigmaController {
     public void initialize() {
         UpdateRotorPositions();
         BuildPlugboard();
+        Cursor screwdriverCursor = CreateScrewdriverCursor();
+        screwAccessButton.setOnMouseEntered(event -> screwAccessButton.setCursor(screwdriverCursor));
+        screwAccessButton.setOnMouseExited(event -> screwAccessButton.setCursor(Cursor.DEFAULT));
+    }
+
+
+    @FXML
+    public void OpenInteriorView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/enigma/fxml/interior-view.fxml")
+            );
+            Parent interiorRoot = loader.load();
+            InteriorController interiorController = loader.getController();
+            interiorController.SetEnigmaMachine(enigmaMachine);
+
+            Stage interiorStage = new Stage();
+            interiorStage.initOwner(screwAccessButton.getScene().getWindow());
+            interiorStage.initModality(Modality.NONE);
+            interiorStage.setTitle("Enigma Machine I — Interior");
+            interiorStage.setResizable(false);
+            interiorStage.setScene(new Scene(interiorRoot));
+            interiorStage.show();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to open the Enigma interior view", exception);
+        }
+    }
+
+    private Cursor CreateScrewdriverCursor() {
+        WritableImage image = new WritableImage(32, 32);
+        PixelWriter writer = image.getPixelWriter();
+
+        DrawCursorStroke(writer, 5, 27, 22, 10, 2, Color.web("#c5cbd0"));
+        DrawCursorStroke(writer, 3, 29, 8, 24, 2, Color.web("#e7edf0"));
+        DrawCursorStroke(writer, 20, 12, 28, 4, 8, Color.web("#754321"));
+        DrawCursorStroke(writer, 21, 10, 27, 4, 2, Color.web("#c18b4d"));
+
+        return new ImageCursor(image, 4, 28);
+    }
+
+    private void DrawCursorStroke(
+            PixelWriter writer,
+            int startX,
+            int startY,
+            int endX,
+            int endY,
+            int thickness,
+            Color color) {
+        int steps = Math.max(Math.abs(endX - startX), Math.abs(endY - startY));
+        double radius = thickness / 2.0;
+
+        for (int step = 0; step <= steps; step++) {
+            double progress = steps == 0 ? 0 : (double) step / steps;
+            int centerX = (int) Math.round(startX + (endX - startX) * progress);
+            int centerY = (int) Math.round(startY + (endY - startY) * progress);
+
+            for (int x = (int) (centerX - radius); x <= centerX + radius; x++) {
+                for (int y = (int) (centerY - radius); y <= centerY + radius; y++) {
+                    if (x >= 0 && x < 32 && y >= 0 && y < 32
+                            && Math.hypot(x - centerX, y - centerY) <= radius + 0.5) {
+                        writer.setColor(x, y, color);
+                    }
+                }
+            }
+        }
     }
 
     @FXML
