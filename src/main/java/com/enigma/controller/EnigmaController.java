@@ -133,6 +133,11 @@ public class EnigmaController {
                 }
             });
             newInteriorStage.setOnHidden(event -> {
+                // Stage.hide()/close() can bypass WINDOW_CLOSE_REQUEST.
+                // Commit valid selections here as well so every close path persists them.
+                if (interiorController != null) {
+                    interiorController.InstallRotorConfiguration();
+                }
                 if (interiorStage == newInteriorStage) {
                     interiorStage = null;
                     interiorController = null;
