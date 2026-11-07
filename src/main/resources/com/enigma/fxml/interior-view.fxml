@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.enigma.controller.InteriorController"
+      prefWidth="760.0" prefHeight="470.0"
+      minWidth="700.0" minHeight="430.0"
+      alignment="CENTER" spacing="22.0"
+      styleClass="interior-root">
+    <padding>
+        <Insets top="28.0" right="34.0" bottom="28.0" left="34.0"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="6.0" styleClass="interior-heading">
+        <Label text="INTERNAL MECHANISM" styleClass="interior-title"/>
+        <Label text="REMOVE THE ROTOR ASSEMBLY TO CHANGE ITS CONFIGURATION"
+               styleClass="interior-subtitle"/>
+    </VBox>
+
+    <HBox alignment="CENTER" spacing="18.0" styleClass="rotor-bay">
+        <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
+            <Label text="LEFT ROTOR" styleClass="interior-rotor-label"/>
+            <Label text="I" styleClass="rotor-core-mark"/>
+            <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
+            <ComboBox fx:id="leftRotorType" prefWidth="145.0" styleClass="interior-combo"/>
+            <Label text="RING SETTING" styleClass="interior-field-label"/>
+            <ComboBox fx:id="leftRingSetting" prefWidth="145.0" styleClass="interior-combo"/>
+        </VBox>
+
+        <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
+            <Label text="MIDDLE ROTOR" styleClass="interior-rotor-label"/>
+            <Label text="II" styleClass="rotor-core-mark"/>
+            <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
+            <ComboBox fx:id="middleRotorType" prefWidth="145.0" styleClass="interior-combo"/>
+            <Label text="RING SETTING" styleClass="interior-field-label"/>
+            <ComboBox fx:id="middleRingSetting" prefWidth="145.0" styleClass="interior-combo"/>
+        </VBox>
+
+        <VBox alignment="CENTER" spacing="12.0" styleClass="rotor-chamber">
+            <Label text="RIGHT ROTOR" styleClass="interior-rotor-label"/>
+            <Label text="III" styleClass="rotor-core-mark"/>
+            <Label text="ROTOR TYPE" styleClass="interior-field-label"/>
+            <ComboBox fx:id="rightRotorType" prefWidth="145.0" styleClass="interior-combo"/>
+            <Label text="RING SETTING" styleClass="interior-field-label"/>
+            <ComboBox fx:id="rightRingSetting" prefWidth="145.0" styleClass="interior-combo"/>
+        </VBox>
+    </HBox>
+
+    <Label fx:id="configurationStatus"
+           text="Rotor changes preserve the current window positions and plugboard wiring."
+           wrapText="true" styleClass="interior-status"/>
+
+    <HBox alignment="CENTER" spacing="16.0">
+        <Button text="INSTALL CONFIGURATION"
+                onAction="#ApplyRotorConfiguration"
+                styleClass="interior-apply-button"/>
+        <Button text="CLOSE MACHINE"
+                onAction="#CloseInteriorView"
+                styleClass="interior-close-button"/>
+    </HBox>
+</VBox>
